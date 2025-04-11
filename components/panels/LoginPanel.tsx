@@ -21,7 +21,7 @@ const LoginPanel: React.FC<LoginPanelProps> = ({ goToPanel }) => {
     };
 
     return (
-        <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+        <div className="max-w-sm mx-auto mt-10 p-6 rounded-4xl shadow-xl">
             <h2 className="text-2xl font-semibold mb-4">Login</h2>
 
             <div className="mb-4">
@@ -30,13 +30,13 @@ const LoginPanel: React.FC<LoginPanelProps> = ({ goToPanel }) => {
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full p-2 border rounded-2xl antialiased focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
             </div>
 
             <button
                 onClick={handleLogin}
-                className="w-full py-2 px-4 bg-cyan-600 text-white rounded hover:bg-blue-700 transition"
+                className="w-full py-2 px-4 bg-cyan-600  text-white rounded hover:bg-blue-700 transition"
             >
                 Login
             </button>
