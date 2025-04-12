@@ -1,9 +1,6 @@
 import { PanelType } from '@/enums/PanelType';
 import LoginPanel from './LoginPanel';
-
-const NotImplementedPanel: React.FC<{
-    goToPanel: (panel: PanelType) => void;
-}> = () => <div>This panel is not yet implemented</div>;
+import NotImplementedPanel from './NotImplementedPanel';
 
 const panelComponents: Record<
     PanelType,
