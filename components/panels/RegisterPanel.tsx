@@ -24,7 +24,7 @@ const RegisterPanel: React.FC<RegisterPanelProps> = ({ goToPanel }) => {
     };
 
     return (
-        <div className="max-w-sm mx-auto mt-10 p-6 rounded-4xl shadow-xl bg-white">
+        <div>
             <h2 className="text-2xl font-semibold mb-4 text-cyan-600">
                 <img
                     src="/airplane2.svg"
