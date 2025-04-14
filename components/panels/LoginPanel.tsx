@@ -1,20 +1,24 @@
 'use client';
-import { PanelType } from '@/enums/PanelType';
 import React from 'react';
+import { PanelType } from '@/enums/PanelType';
+import { PanelProps } from './panel-props';
 import { useState } from 'react';
 
-interface LoginPanelProps {
-    goToPanel: (panel: PanelType) => void;
-}
-
-const LoginPanel: React.FC<LoginPanelProps> = ({ goToPanel }) => {
+export const LoginPanel: React.FC<PanelProps> = ({
+    goToPanel,
+    goToPreviousPanel,
+}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const loginSuccess = () => {
+        goToPanel(PanelType.Homepage);
+    };
+
     const handleLogin = () => {
-        if (email === 'admin' && password === '1234') {
-            goToPanel(PanelType.SearchFlight);
+        if (email === 'a' && password === 'a') {
+            loginSuccess();
         } else if (email === '' || password === '') {
             setError('You must fill in all fields.');
         } else {
@@ -75,5 +79,3 @@ const LoginPanel: React.FC<LoginPanelProps> = ({ goToPanel }) => {
         </div>
     );
 };
-
-export default LoginPanel;
