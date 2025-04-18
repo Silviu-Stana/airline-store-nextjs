@@ -1,27 +1,19 @@
 'use client';
-import {
-    BsArrowLeftCircle,
-    BsArrowLeftCircleFill,
-    BsFillAirplaneFill,
-} from 'react-icons/bs';
-import { PanelProps } from '@/components/panels/panel-props';
+import { BsFillAirplaneFill } from 'react-icons/bs';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import { BiSolidHelpCircle } from 'react-icons/bi';
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { GrLogout } from 'react-icons/gr';
 
 const HomepagePanel: React.FC = () => {
     const [hint, setHint] = useState('');
     const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const sunRef = useRef<HTMLImageElement | null>(null);
 
-    const router = useRouter();
-    const { status } = useSession();
-
-    useEffect(() => {
-        if (status === 'unauthenticated') router.push('/login');
-    }, [status, router]);
+    const logout = () => {
+        signOut({ redirect: true, callbackUrl: '/login' });
+    };
 
     const setHintWithDelay = (text: string) => {
         if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
@@ -29,11 +21,6 @@ const HomepagePanel: React.FC = () => {
         hintTimeoutRef.current = setTimeout(() => {
             setHint(text);
         }, 50);
-    };
-
-    const logout = () => {
-        signOut();
-        router.push('/auth');
     };
 
     const hints = [
@@ -129,8 +116,8 @@ const HomepagePanel: React.FC = () => {
                     hover:text-xl transition-all duration-300
                     hover:bg-cyan-300 mt-5"
                 >
-                    <span className="transform rotate-90">
-                        <BsFillAirplaneFill size={20} />
+                    <span className="transform">
+                        <GrLogout size={20} />
                     </span>
                     Logout
                 </button>

@@ -4,7 +4,7 @@ import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { getUserByEmail } from '@/lib/supabase';
 
-const handler = NextAuth({
+export const authOptions = NextAuth({
     providers: [
         Credentials({
             name: 'Credentials',
@@ -16,11 +16,11 @@ const handler = NextAuth({
                 if (!credentials?.email || !credentials?.password) return null;
 
                 const user = await getUserByEmail(credentials.email);
-                if (!user || !user.hashed_password) return null;
+                if (!user || !user.password) return null;
 
                 const isValid = await bcrypt.compare(
                     credentials.password,
-                    user.hashed_password
+                    user.password
                 );
                 if (!isValid) return null;
 
@@ -44,4 +44,4 @@ const handler = NextAuth({
     },
 });
 
-export { handler as GET, handler as POST };
+export { authOptions as GET, authOptions as POST };
