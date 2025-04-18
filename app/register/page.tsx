@@ -1,10 +1,10 @@
 'use client';
 import { PanelType } from '@/enums/PanelType';
-import { PanelProps } from './panel-props';
+import { PanelProps } from '@/components/panels/panel-props';
 import React from 'react';
 import { useState } from 'react';
 
-export const RegisterPanel: React.FC<PanelProps> = ({
+const RegisterPanel: React.FC<PanelProps> = ({
     goToPanel,
     goToPreviousPanel,
 }) => {
@@ -86,3 +86,5 @@ export const RegisterPanel: React.FC<PanelProps> = ({
         </div>
     );
 };
+
+export default RegisterPanel;

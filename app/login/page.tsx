@@ -1,19 +1,24 @@
 'use client';
 import React from 'react';
 import { PanelType } from '@/enums/PanelType';
-import { PanelProps } from './panel-props';
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export const LoginPanel: React.FC<PanelProps> = ({
-    goToPanel,
-    goToPreviousPanel,
-}) => {
+const LoginPanel: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const router = useRouter();
+
     const loginSuccess = () => {
-        goToPanel(PanelType.Homepage);
+        signIn('credentials', {
+            redirect: true,
+            callbackUrl: '/',
+            email,
+            password,
+        });
     };
 
     const handleLogin = () => {
@@ -71,7 +76,7 @@ export const LoginPanel: React.FC<PanelProps> = ({
                 Don&apos;t have an account?{' '}
                 <button
                     className="font-semibold hover:cursor-pointer text-cyan-600 hover:underline"
-                    onClick={() => goToPanel(PanelType.Register)}
+                    onClick={() => router.push('/')}
                 >
                     Register
                 </button>
@@ -79,3 +84,5 @@ export const LoginPanel: React.FC<PanelProps> = ({
         </div>
     );
 };
+
+export default LoginPanel;

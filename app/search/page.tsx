@@ -3,10 +3,10 @@ import {
     BsArrowLeftCircleFill,
     BsFillAirplaneFill,
 } from 'react-icons/bs';
-import { PanelProps } from './panel-props';
+import { PanelProps } from '@/components/panels/panel-props';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 
-export const SearchPanel: React.FC<PanelProps> = ({
+const SearchPanel: React.FC<PanelProps> = ({
     goToPanel,
     goToPreviousPanel,
 }) => {
@@ -84,3 +84,5 @@ export const SearchPanel: React.FC<PanelProps> = ({
         </div>
     );
 };
+
+export default SearchPanel;
