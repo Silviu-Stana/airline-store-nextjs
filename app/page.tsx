@@ -1,19 +1,25 @@
 'use client';
 import { BsFillAirplaneFill } from 'react-icons/bs';
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import { BiSolidHelpCircle } from 'react-icons/bi';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { signOut } from 'next-auth/react';
 import { GrLogout } from 'react-icons/gr';
+import { useRouter } from 'next/navigation';
+import { handleFakeFlights } from '@/lib/supabase';
+import useSun from '@/hooks/useSun';
 
 const HomepagePanel: React.FC = () => {
     const [hint, setHint] = useState('');
     const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const sunRef = useRef<HTMLImageElement | null>(null);
+    const router = useRouter();
+    const sunRef = useSun();
 
     const logout = () => {
         signOut({ redirect: true, callbackUrl: '/login' });
     };
+
+    // handleFakeFlights();
 
     const setHintWithDelay = (text: string) => {
         if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
@@ -29,28 +35,6 @@ const HomepagePanel: React.FC = () => {
         'Need more help?',
         'Leaving already?🥺',
     ];
-
-    useEffect(() => {
-        let animationFrameId: number | null = null;
-        let rotation = 0;
-        const animationSpeed = 0.05; // Adjust for faster/slower rotation
-
-        const animateSun = () => {
-            if (sunRef.current) {
-                rotation += animationSpeed;
-                sunRef.current.style.transform = `rotate(${rotation}deg)`;
-                animationFrameId = requestAnimationFrame(animateSun);
-            }
-        };
-
-        animateSun();
-
-        return () => {
-            if (animationFrameId !== null) {
-                cancelAnimationFrame(animationFrameId);
-            }
-        };
-    }, []);
 
     return (
         <div className="relative flex flex-col items-center">
@@ -80,12 +64,13 @@ const HomepagePanel: React.FC = () => {
             <div className="flex flex-col gap-4">
                 <button
                     onMouseOver={() => setHintWithDelay(hints[0])}
+                    onClick={() => router.push('/reservations/date')}
                     className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md shadow-cyan-300 rounded-2xl font-bold text-lg text-cyan-900
                     hover:text-xl transition-all duration-300
                     hover:bg-cyan-300 mt-5"
                 >
                     <span>
-                        <FaArrowAltCircleLeft size={20} />
+                        <FaPlus size={20} />
                     </span>
                     Reserve Flight
                 </button>

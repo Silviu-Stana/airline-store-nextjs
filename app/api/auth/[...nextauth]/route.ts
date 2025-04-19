@@ -32,8 +32,8 @@ export const authOptions = NextAuth({
         }),
     ],
     adapter: SupabaseAdapter({
-        url: process.env.SUPABASE_URL ?? '',
-        secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
+        url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
+        secret: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ?? '',
     }),
     session: {
         strategy: 'jwt',
