@@ -10,7 +10,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
     title: {
         template: '%s / Airline',
-        default: 'Silviu Airline - Login',
+        default: 'Reserve a Seat',
     },
     description: 'High quality, reliable Airline!',
 };
@@ -21,13 +21,12 @@ export default function SeatsLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="bg-cyan-50">
-            <body
-                className={`${geistSans.variable} antialiased
-                         sm:max-w-xl sm:mx-auto -mx-5 py-10 mt-0 sm:mt-20 rounded-4xl shadow-xl bg-white`}
-            >
-                <SessionWrapper>{children}</SessionWrapper>
-            </body>
-        </html>
+        <div
+            className={
+                'sm:max-w-xl -mx-25 sm:-mx-20 md:-mx-16 lg:mx-auto rounded-4xl '
+            }
+        >
+            <SessionWrapper>{children}</SessionWrapper>
+        </div>
     );
 }

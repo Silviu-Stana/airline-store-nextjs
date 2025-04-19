@@ -58,11 +58,11 @@ const SearchFlight = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-row gap-5 justify-center mb-4">
+                <div className="relative z-10 flex flex-row gap-5 justify-center mb-4">
                     <NavigationButton
                         label="Back"
                         iconPosition="left"
-                        route="/"
+                        route="/reservations/search-flight"
                     />
                     <NavigationButton
                         label="Next"

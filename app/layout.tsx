@@ -8,12 +8,14 @@ const geistSans = Geist({
     subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-    title: {
-        template: '%s / Airline',
-        default: 'Silviu Airline - Login',
-    },
-    description: 'High quality, reliable Airline!',
+export const generateMetadata = (): Metadata => {
+    return {
+        title: {
+            default: `Silviu Airline`,
+            template: `Silviu Airline`,
+        },
+        description: 'High quality, reliable Airline!',
+    };
 };
 
 export default function RootLayout({
