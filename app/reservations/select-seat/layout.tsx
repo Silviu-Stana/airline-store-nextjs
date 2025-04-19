@@ -24,7 +24,7 @@ export default function SeatsLayout({
         <html lang="en" className="bg-cyan-50">
             <body
                 className={`${geistSans.variable} antialiased
-                           h-full w-full sm:max-w-xl mx-auto mt-20 rounded-4xl shadow-xl bg-white`}
+                         sm:max-w-xl sm:mx-auto -mx-5 py-10 mt-0 sm:mt-20 rounded-4xl shadow-xl bg-white`}
             >
                 <SessionWrapper>{children}</SessionWrapper>
             </body>

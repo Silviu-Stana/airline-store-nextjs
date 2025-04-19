@@ -1,3 +1,4 @@
+import NavigationButton from '@/components/NavigationButton';
 import Seat from '@/components/Seat';
 import Image from 'next/image';
 import React from 'react';
@@ -18,7 +19,7 @@ const SearchFlight = () => {
                 />
 
                 <div className="absolute inset-0 mr-0.5 flex justify-center items-center">
-                    <div className="flex gap-1 mb-20">
+                    <div className="flex gap-1 mb-40">
                         <div className="flex flex-col gap-2">
                             <Seat label="A1" />
                             <Seat label="A2" />
@@ -55,6 +56,19 @@ const SearchFlight = () => {
                             <Seat label="D6" />
                         </div>
                     </div>
+                </div>
+
+                <div className="flex flex-row gap-5 justify-center mb-4">
+                    <NavigationButton
+                        label="Back"
+                        iconPosition="left"
+                        route="/"
+                    />
+                    <NavigationButton
+                        label="Next"
+                        iconPosition="right"
+                        route="/reservations/search-flight"
+                    />
                 </div>
             </div>
         </div>
