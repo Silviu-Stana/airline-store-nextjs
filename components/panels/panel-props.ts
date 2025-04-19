@@ -1,6 +1,6 @@
-import { PanelType } from '@/enums/PanelType';
+// import { PanelType } from '@/enums/PanelType';
 
-export interface PanelProps {
-    goToPreviousPanel: (panel: PanelType) => void;
-    goToPanel: (panel: PanelType) => void;
-}
+// export interface PanelProps {
+//     goToPreviousPanel: (panel: PanelType) => void;
+//     goToPanel: (panel: PanelType) => void;
+// }

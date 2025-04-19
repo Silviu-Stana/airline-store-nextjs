@@ -1,15 +1,7 @@
-import {
-    BsArrowLeftCircle,
-    BsArrowLeftCircleFill,
-    BsFillAirplaneFill,
-} from 'react-icons/bs';
-import { PanelProps } from '@/components/panels/panel-props';
+import { BsFillAirplaneFill } from 'react-icons/bs';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 
-const SearchPanel: React.FC<PanelProps> = ({
-    goToPanel,
-    goToPreviousPanel,
-}) => {
+const SearchPanel = () => {
     return (
         <div className="flex flex-col items-center">
             <h1 className="text-cyan-500 text-6xl flex flex-row gap-5 justify-center pt-20">

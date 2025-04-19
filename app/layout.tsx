@@ -25,6 +25,18 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="bg-cyan-50">
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link
+                    rel="preconnect"
+                    href="https://fonts.gstatic.com"
+                    crossOrigin=""
+                />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap"
+                    rel="stylesheet"
+                />
+            </head>
             <body
                 className={`${geistSans.variable} antialiased
                            max-w-sm md:max-w-md lg:max-w-xl mx-auto mt-15 p-6 rounded-4xl shadow-xl bg-white`}

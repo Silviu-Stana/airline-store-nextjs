@@ -4,7 +4,7 @@ import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { getUserByEmail } from '@/lib/supabase';
 
-export const authOptions = NextAuth({
+const handler = NextAuth({
     providers: [
         Credentials({
             name: 'Credentials',
@@ -44,4 +44,4 @@ export const authOptions = NextAuth({
     },
 });
 
-export { authOptions as GET, authOptions as POST };
+export { handler as GET, handler as POST };

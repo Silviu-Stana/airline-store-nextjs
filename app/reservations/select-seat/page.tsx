@@ -4,6 +4,7 @@ import Seat from '@/components/Seat';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { SeatProvider, useSeat } from './SeatContext';
+import { Prefetcher } from '@/components/Prefetcher';
 
 const SearchFlight = () => {
     const { selectedSeat } = useSeat();
@@ -78,6 +79,7 @@ const SearchFlight = () => {
                 </div>
 
                 <div className="relative z-10 flex flex-row gap-5 justify-center mb-4">
+                    <Prefetcher route="/reservations/search-flight" />
                     <NavigationButton
                         label="Back"
                         iconPosition="left"
@@ -85,7 +87,7 @@ const SearchFlight = () => {
                     />
                     <NavigationButton
                         disabled={disabled}
-                        label="Next"
+                        label="Reserve"
                         iconPosition="right"
                         route="/reservations/search-flight"
                     />

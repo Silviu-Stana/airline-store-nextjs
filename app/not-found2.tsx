@@ -1,5 +1,4 @@
 'use client';
-import { PanelType } from '@/enums/PanelType';
 import { usePathname } from 'next/navigation';
 
 export default function PageNotFound() {

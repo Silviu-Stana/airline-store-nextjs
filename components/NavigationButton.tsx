@@ -21,6 +21,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
     return (
         <button
             disabled={disabled}
+            onMouseEnter={() => router.prefetch(route)}
             onClick={() => router.push(route)}
             className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-32 h-14 shadow-md rounded-2xl font-bold text-lg text-cyan-500
                                         hover:text-xl transition-all duration-300

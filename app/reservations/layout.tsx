@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import SessionWrapper from '@/components/SessionWrapper';
-import { SeatProvider } from './SeatContext';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -11,25 +10,24 @@ const geistSans = Geist({
 export const metadata: Metadata = {
     title: {
         template: '%s / Airline',
-        default: 'Reserve a Seat',
+        default: 'Silviu Airline - Login',
     },
     description: 'High quality, reliable Airline!',
 };
 
-export default function SeatsLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <div
-            className={
-                'sm:max-w-xl -mx-30 sm:-mx-20 md:-mx-16 lg:mx-auto rounded-4xl '
-            }
-        >
-            <SessionWrapper>
-                <SeatProvider>{children}</SeatProvider>
-            </SessionWrapper>
-        </div>
+        <html lang="en" className="bg-cyan-50">
+            <body
+                className={`${geistSans.variable} antialiased
+                           max-w-sm md:max-w-md lg:max-w-xl mx-auto mt-20 p-6 rounded-4xl shadow-xl bg-white`}
+            >
+                <SessionWrapper>{children}</SessionWrapper>
+            </body>
+        </html>
     );
 }
