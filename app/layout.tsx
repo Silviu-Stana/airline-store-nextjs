@@ -27,7 +27,7 @@ export default function RootLayout({
         <html lang="en" className="bg-cyan-50">
             <body
                 className={`${geistSans.variable} antialiased
-                           max-w-sm md:max-w-md lg:max-w-xl mx-auto mt-20 p-6 rounded-4xl shadow-xl bg-white`}
+                           max-w-sm md:max-w-md lg:max-w-xl mx-auto mt-15 p-6 rounded-4xl shadow-xl bg-white`}
             >
                 <SessionWrapper>{children}</SessionWrapper>
             </body>

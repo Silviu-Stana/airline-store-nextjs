@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import SessionWrapper from '@/components/SessionWrapper';
+import { SeatProvider } from './SeatContext';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -26,7 +27,9 @@ export default function SeatsLayout({
                 'sm:max-w-xl -mx-25 sm:-mx-20 md:-mx-16 lg:mx-auto rounded-4xl '
             }
         >
-            <SessionWrapper>{children}</SessionWrapper>
+            <SessionWrapper>
+                <SeatProvider>{children}</SeatProvider>
+            </SessionWrapper>
         </div>
     );
 }

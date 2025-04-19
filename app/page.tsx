@@ -42,7 +42,7 @@ const HomepagePanel: React.FC = () => {
                 ref={sunRef}
                 src="/sun.svg"
                 alt="Sun Icon"
-                className="absolute -z-10 w-40 h-40 -right-26 -top-22"
+                className="absolute -z-10 w-33 h-33 -right-22 -top-20"
             />
             <h1 className="text-cyan-500 text-6xl flex flex-row gap-5 justify-center text-center pt-20">
                 Vacanța începe aici.

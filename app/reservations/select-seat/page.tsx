@@ -1,14 +1,33 @@
+'use client';
 import NavigationButton from '@/components/NavigationButton';
 import Seat from '@/components/Seat';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import { SeatProvider, useSeat } from './SeatContext';
 
 const SearchFlight = () => {
+    const { selectedSeat } = useSeat();
+
+    let disabled = false;
+    if (selectedSeat === '') disabled = true;
+    else disabled = false;
+
     return (
         <div>
-            <h1 className="text-cyan-500 text-3xl justify-center text-center py-3">
-                Select your seat!
-            </h1>
+            {selectedSeat ? (
+                <>
+                    <h1 className="text-cyan-500 text-3xl py-3 justify-center text-center">
+                        Reserve
+                    </h1>
+                    <h1 className="text-cyan-500 text-4xl -mt-3 mb-3 justify-center text-center">
+                        {selectedSeat}
+                    </h1>
+                </>
+            ) : (
+                <h1 className="text-cyan-500 text-3xl py-3 justify-center text-center">
+                    Select your seat!
+                </h1>
+            )}
             <div className="relative mx-auto">
                 <Image
                     className="object-contain"
@@ -65,6 +84,7 @@ const SearchFlight = () => {
                         route="/reservations/search-flight"
                     />
                     <NavigationButton
+                        disabled={disabled}
                         label="Next"
                         iconPosition="right"
                         route="/reservations/search-flight"
