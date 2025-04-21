@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from './db/supabase';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 

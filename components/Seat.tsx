@@ -1,13 +1,13 @@
 'use client';
-import { useSeat } from '@/app/reservations/select-seat/SeatContext';
-import React, { useState } from 'react';
+import { useReservation } from '@/contexts/ReservationContext';
+import React from 'react';
 
 interface SeatProps {
     label: string;
 }
 
 const Seat: React.FC<SeatProps> = ({ label }) => {
-    const { selectedSeat, setSelectedSeat } = useSeat();
+    const { selectedSeat, setSelectedSeat } = useReservation();
 
     return (
         <div

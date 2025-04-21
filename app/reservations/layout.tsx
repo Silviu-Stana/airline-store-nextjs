@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import SessionWrapper from '@/components/SessionWrapper';
+import { ReservationProvider } from '@/contexts/ReservationContext';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -21,13 +22,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="bg-cyan-50">
-            <body
-                className={`${geistSans.variable} antialiased
-                           max-w-sm md:max-w-md lg:max-w-xl mx-auto mt-20 p-6 rounded-4xl shadow-xl bg-white`}
-            >
-                <SessionWrapper>{children}</SessionWrapper>
-            </body>
-        </html>
+        <div
+            className={`${geistSans.variable} antialiased
+                           sm:max-w-xl -mx-30 sm:-mx-20 md:-mx-16 lg:mx-auto rounded-4xl shadow-none`}
+        >
+            <SessionWrapper>
+                <ReservationProvider>{children}</ReservationProvider>
+            </SessionWrapper>
+        </div>
     );
 }

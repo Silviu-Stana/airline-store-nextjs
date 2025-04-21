@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import { getUserByEmail } from '@/lib/supabase';
+import { getUserByEmail } from '@/lib/db/supabase';
 
 const handler = NextAuth({
     providers: [

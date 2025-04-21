@@ -2,12 +2,12 @@
 import NavigationButton from '@/components/NavigationButton';
 import Seat from '@/components/Seat';
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { SeatProvider, useSeat } from './SeatContext';
+import React from 'react';
+import { useReservation } from './ReservationContext';
 import { Prefetcher } from '@/components/Prefetcher';
 
 const SearchFlight = () => {
-    const { selectedSeat } = useSeat();
+    const { selectedSeat } = useReservation();
 
     let disabled = false;
     if (selectedSeat === '') disabled = true;

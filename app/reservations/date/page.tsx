@@ -13,10 +13,10 @@ export const generateMetadata = (): Metadata => {
 };
 
 import React from 'react';
-import NewReservationPanel from './NewReservationPanel';
+import SelectDatePanel from './SelectDatePanel';
 
 const DatePanel = () => {
-    return <NewReservationPanel />;
+    return <SelectDatePanel />;
 };
 
 export default DatePanel;

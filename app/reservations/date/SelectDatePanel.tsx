@@ -1,12 +1,11 @@
 'use client';
 import NavigationButton from '@/components/NavigationButton';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useReservation } from '@/contexts/ReservationContext';
+import React from 'react';
 import { DayPicker } from 'react-day-picker';
 
-const NewReservationPanel = () => {
-    const [date, setDate] = useState<Date>(new Date());
-    const router = useRouter();
+const SelectDatePanel = () => {
+    const { selectedDate, setSelectedDate } = useReservation();
 
     return (
         <div>
@@ -18,14 +17,16 @@ const NewReservationPanel = () => {
                 className="flex flex-row justify-center"
                 mode="single"
                 required={true}
-                selected={date}
-                onSelect={setDate}
+                selected={selectedDate}
+                onSelect={setSelectedDate}
                 disabled={{ before: new Date() }} // disables all days before today
             />
             <h2 className="flex flex-row justify-center mt-5 text-xl">
-                {date && <span className="font-bold mr-2">Selected:</span>}
-                {date &&
-                    date.toLocaleDateString('en-US', {
+                {selectedDate && (
+                    <span className="font-bold mr-2">Selected:</span>
+                )}
+                {selectedDate &&
+                    selectedDate.toLocaleDateString('en-US', {
                         weekday: 'long', // full day name
                         year: 'numeric',
                         month: 'long',
@@ -44,4 +45,4 @@ const NewReservationPanel = () => {
     );
 };
 
-export default NewReservationPanel;
+export default SelectDatePanel;

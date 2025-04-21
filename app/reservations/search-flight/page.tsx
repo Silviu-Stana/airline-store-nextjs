@@ -1,25 +1,35 @@
 'use client';
 import NavigationButton from '@/components/NavigationButton';
-import Image from 'next/image';
-import React, { useState } from 'react';
-
-const locations = [
-    { city: 'Bucuresti', country: 'Romania' },
-    { city: 'Paris', country: 'France' },
-    { city: 'Berlin', country: 'Germany' },
-    { city: 'Sofia', country: 'Bulgaria' },
-    { city: 'Tokyo', country: 'Japan' },
-];
+import SearchResult from '@/components/search-results/SearchResult';
+import { useReservation } from '@/contexts/ReservationContext';
+import { getAllFlightLocations, searchFlight } from '@/lib/db/supabase';
+import React, { useEffect, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 
 const SearchFlight = () => {
-    const [from, setFrom] = useState({
-        city: 'Bucuresti',
-        country: 'Romania',
-    });
-    const [to, setTo] = useState({
-        city: 'Sofia',
-        country: 'Bulgaria',
-    });
+    const [from, setFrom] = useState('');
+    const [to, setTo] = useState('');
+    const [locations, setLocations] = useState(['']);
+
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+
+    const { selectedDate } = useReservation();
+
+    useEffect(() => {
+        async function getCities() {
+            let loc = await getAllFlightLocations();
+            setLocations(['...................', ...loc]);
+            setTo('');
+            setFrom('');
+        }
+
+        getCities();
+    }, []);
+
+    async function handleSearch() {
+        const results = await searchFlight(from, to, selectedDate);
+        setSearchResults(results);
+    }
 
     return (
         <div>
@@ -34,31 +44,31 @@ const SearchFlight = () => {
                 >
                     <div className="ml-5 mt-5 text-gray-500">From</div>
                     <select
-                        value={from.city}
+                        value={from}
                         onChange={(e) => {
                             const selected = locations.find(
-                                (loc) => loc.city === e.target.value
+                                (loc) => loc === e.target.value
                             );
-                            setFrom(selected || from);
+                            if (selected) setFrom(selected);
                         }}
-                        className="ml-4 font-medium text-[18px] text-cyan-500 focus:outline-none"
+                        className="ml-4 font-medium text-[18px] text-cyan-500 focus:outline-none cursor-pointer"
                     >
                         {locations
-                            .filter((loc) => loc.city !== to.city)
+                            .filter((loc) => loc !== to)
                             .map((loc) => {
                                 return (
                                     <option
-                                        key={loc.city}
-                                        value={loc.city}
+                                        key={loc}
+                                        value={loc}
                                         className="font-semibold text-cyan-600"
                                     >
-                                        {loc.city}
+                                        {loc}
                                     </option>
                                 );
                             })}
                     </select>
                     <div className="ml-5 text-[13px] text-cyan-800 font-bold ">
-                        {from.country}
+                        {/* {from.country} */}
                     </div>
                 </div>
                 <div
@@ -68,15 +78,57 @@ const SearchFlight = () => {
                 "
                 >
                     <div className="ml-5 mt-5 text-gray-500">To</div>
-                    <div className="ml-5 font-medium text-[18px] text-cyan-500">
-                        {to.city}
-                    </div>
+                    <select
+                        value={to}
+                        onChange={(e) => {
+                            const selected = locations.find(
+                                (loc) => loc === e.target.value
+                            );
+                            if (selected) setTo(selected);
+                        }}
+                        className="ml-4 font-medium text-[18px] text-cyan-500 focus:outline-none cursor-pointer"
+                    >
+                        {locations
+                            .filter((loc) => loc !== from)
+                            .map((loc) => {
+                                return (
+                                    <option
+                                        key={loc}
+                                        value={loc}
+                                        className="font-semibold text-cyan-600"
+                                    >
+                                        {loc}
+                                    </option>
+                                );
+                            })}
+                    </select>
                     <div className="ml-5 text-[13px] text-cyan-800 font-bold ">
-                        {to.country}
+                        {/* {to.country} */}
                     </div>
                 </div>
             </div>
-            <div className="relative z-10 flex flex-row gap-5 justify-center mb-4">
+
+            <div className="mt-10"></div>
+            {searchResults &&
+                searchResults.map((res) => (
+                    <SearchResult key={res.id} res={res} />
+                ))}
+
+            <div className="relative flex flex-row justify-center mt-5">
+                <button
+                    onClick={handleSearch}
+                    className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md shadow-cyan-300 rounded-2xl font-bold text-xl cursor-pointer text-cyan-600
+                                    hover:text-xl transition-all duration-300
+                                    hover:bg-cyan-300 mt-5"
+                >
+                    <span>
+                        <FaSearch size={20} />
+                    </span>
+                    Search Flights
+                </button>
+            </div>
+
+            <div className="relative z-10 flex flex-row gap-5 justify-center mb-4 mt-20">
                 <NavigationButton
                     label="Back"
                     iconPosition="left"
