@@ -129,6 +129,20 @@ export async function searchFlight(
         return [];
     }
 
-    console.log(data);
     return data;
+}
+
+export async function getFlightById(flightId: string) {
+    const { data, error } = await supabase
+        .schema('next_auth')
+        .from('flights')
+        .select('*')
+        .eq('id', flightId)
+        .single();
+
+    if (error) {
+        throw new Error(`Error fetching flight: ${error.message}`);
+    }
+
+    return data; // Return the flight data directly
 }

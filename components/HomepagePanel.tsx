@@ -93,6 +93,7 @@ const HomepagePanel: React.FC = () => {
                     Reserve Flight
                 </button>
                 <button
+                    onClick={() => router.push('/my-reservations')}
                     onMouseOver={() => setHintWithDelay(hints[1])}
                     className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md rounded-2xl font-bold text-lg text-cyan-900
                     hover:text-xl transition-all duration-300
@@ -104,6 +105,7 @@ const HomepagePanel: React.FC = () => {
                     My Reservations
                 </button>
                 <button
+                    onClick={() => router.push('/help')}
                     onMouseOver={() => setHintWithDelay(hints[2])}
                     className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md rounded-2xl font-bold text-lg text-cyan-900
                     hover:text-xl transition-all duration-300
