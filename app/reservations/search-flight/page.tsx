@@ -5,9 +5,10 @@ import SearchResult, {
 } from '@/components/search-results/SearchResult';
 import SearchFlightsButton from '@/components/SearchFlightsButton';
 import { useReservation } from '@/contexts/ReservationContext';
-import { getAllFlightLocations, searchFlight } from '@/lib/db/supabase';
+import { getAllFlightLocations, searchFlight } from '@/lib/db/flight';
+
 import React, { useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaCircleInfo } from 'react-icons/fa6';
 
 const SearchFlight = () => {
     const [from, setFrom] = useState('');
@@ -34,6 +35,10 @@ const SearchFlight = () => {
         getCities();
     }, []);
 
+    useEffect(() => {
+        if (flightId) handleSearch();
+    }, []);
+
     async function handleSearch() {
         setIsLoading(true);
         const results = await searchFlight(from, to, selectedDate);
@@ -49,7 +54,7 @@ const SearchFlight = () => {
             </h1>
             <div className="flex justify-center gap-3 md:gap-4 lg:gap-5 px-2 sm:px-5">
                 <div
-                    className="w-64 md:w-56 lg:w-70 h-27 bg-white rounded-2xl
+                    className="w-40 md:w-50 lg:w-70 h-27 bg-white rounded-2xl
                     transition-all
                     shadow-[0_4px_8px_rgba(0,154,206,0.3)] hover:shadow-[0_6px_24px_rgba(0,154,206,.6)] "
                 >
@@ -87,7 +92,7 @@ const SearchFlight = () => {
                     </div>
                 </div>
                 <div
-                    className="w-64 md:w-56 lg:w-70 h-27 bg-white rounded-2xl
+                    className="w-40 md:w-50 lg:w-70 h-27 bg-white rounded-2xl
                 transition-all
                 shadow-[0_4px_8px_rgba(0,154,206,0.3)] hover:shadow-[0_6px_24px_rgba(0,154,206,.6)] 
                 "
@@ -132,6 +137,15 @@ const SearchFlight = () => {
                 handleSearch={handleSearch}
                 isLoading={isLoading}
             />
+
+            {flightId && searchResults.length === 0 && (
+                <div className="flex justify-center items-center">
+                    <FaCircleInfo className="text-gray-400 text-4xl mr-2" />
+                    <h1 className="text-gray-400 text-4xl justify-center text-center">
+                        No Results Found
+                    </h1>
+                </div>
+            )}
 
             <div className="mt-10"></div>
             {searchResults &&

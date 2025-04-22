@@ -9,7 +9,7 @@ const SelectDatePanel = () => {
 
     return (
         <div>
-            <h1 className="text-cyan-500 text-3xl justify-center text-center pt-20 p-10">
+            <h1 className="text-cyan-500 text-3xl justify-center text-center pt-10 md:p-20 p-10 m-10 md:m-5 lg:m-0">
                 When would you like to{' '}
                 <span className="underline"> reserve</span> your flight?
             </h1>

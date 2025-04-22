@@ -1,10 +1,12 @@
+// app/api/auth/[...nextauth]/route.ts
+
 import NextAuth from 'next-auth';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import { getUserByEmail } from '@/lib/db/supabase';
+import { getUserByEmail } from '@/lib/db/user';
 
-const handler = NextAuth({
+export const authOptions = {
     providers: [
         Credentials({
             name: 'Credentials',
@@ -36,12 +38,26 @@ const handler = NextAuth({
         secret: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ?? '',
     }),
     session: {
-        strategy: 'jwt',
+        strategy: 'jwt' as 'jwt',
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: '/auth/signin',
     },
-});
+    callbacks: {
+        //Include user ID in the session:
+        async session({ session, token }: { session: any; token: any }) {
+            if (token?.id) session.user.id = token.id;
+            return session;
+        },
+        async jwt({ token, user }: { token: any; user?: { id: string } }) {
+            if (user) token.id = user.id;
+            return token;
+        },
+    },
+};
+
+// Pass options to NextAuth handler
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

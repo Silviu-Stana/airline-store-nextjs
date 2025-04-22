@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react';
 import { GrLogout } from 'react-icons/gr';
 import { useRouter } from 'next/navigation';
 import useSun from '@/hooks/useSun';
-import { doesFlightExistOnDate, insertFakeFlight } from '@/lib/db/supabase';
+import { doesFlightExistOnDate, insertFakeFlight } from '@/lib/db/flight';
 
 const HomepagePanel: React.FC = () => {
     const [hint, setHint] = useState('');

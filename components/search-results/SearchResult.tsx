@@ -43,7 +43,10 @@ const SearchResult: React.FC<SearchResultProps> = ({
     else arrivalTime += arrivalDate.getMinutes();
 
     return (
-        <div className="flex flex-row items-center justify-around mx-auto mt-5 p-6 rounded-4xl shadow-xl outline-2 outline-cyan-400/10 bg-white">
+        <div
+            className="flex flex-row items-center justify-around mt-5 p-6 rounded-4xl shadow-xl outline-2 outline-cyan-400/10 bg-white
+        mx-24 sm:mx-14  lg:mx-auto"
+        >
             <div>
                 <p className="text-lg ">{departureTime}</p>
                 <h1 className="text-lg ">{start_location}</h1>
