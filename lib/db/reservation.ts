@@ -51,8 +51,38 @@ export async function getAllUserReservations(userId: string) {
         );
     }
 
-    const allReservations = data.flatMap((r) => r.flight_id);
-    const uniqueReservations = Array.from(new Set(allReservations));
+    const allReservations = data.flatMap((r) => r.id);
+    const allFlights = data.flatMap((r) => r.flight_id);
 
-    return { reservations: uniqueReservations };
+    return { reservationIds: allReservations, flightIds: allFlights };
+}
+
+export async function fetchReservation(reservationId: string) {
+    const { data, error } = await supabase
+        .schema('next_auth')
+        .from('reservations')
+        .select('*')
+        .eq('id', reservationId)
+        .single();
+
+    if (error) throw new Error(`Error fetching reservation: ${error.message}`);
+
+    return { data };
+}
+
+export async function cancelReservation(userId: string, reservationId: string) {
+    const { error } = await supabase
+        .schema('next_auth')
+        .from('reservations')
+        .delete()
+        .eq('user_id', userId)
+        .eq('id', reservationId);
+
+    if (error) {
+        throw new Error('Error: while deleting a reservation:', error);
+    } else {
+        console.log('Delete Successful!');
+    }
+
+    return { error };
 }

@@ -1,14 +1,17 @@
 'use client';
 import { getFlightById } from '@/lib/db/flight';
+import { cancelReservation, fetchReservation } from '@/lib/db/reservation';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
-import { FaArrowRight, FaWindowClose } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
 export interface UserReservationProps {
+    reservationId: string;
     flightId: string;
 }
 
-export interface ReservationProps {
+export interface FlightProps {
     id: string;
     flight_date: Date;
     flight_duration: number;
@@ -17,8 +20,21 @@ export interface ReservationProps {
     price: number;
 }
 
-const UserReservation: React.FC<UserReservationProps> = ({ flightId }) => {
-    const [flight, setFlight] = useState<ReservationProps>();
+export interface ReservationProps {
+    user_id: string;
+    flight_id: string;
+    id: string;
+    expiration_date: Date;
+}
+
+const UserReservation: React.FC<UserReservationProps> = ({
+    reservationId,
+    flightId,
+}) => {
+    const [flight, setFlight] = useState<FlightProps>();
+    const [isCancelled, setIsCancelled] = useState(false);
+    const { data } = useSession();
+
     useEffect(() => {
         const fetchFlight = async () => {
             const data = await getFlightById(flightId);
@@ -27,7 +43,7 @@ const UserReservation: React.FC<UserReservationProps> = ({ flightId }) => {
         fetchFlight();
     }, []);
 
-    if (!flight) return null;
+    if (!flight || isCancelled) return null;
 
     const {
         flight_date,
@@ -36,6 +52,17 @@ const UserReservation: React.FC<UserReservationProps> = ({ flightId }) => {
         end_location,
         price,
     } = flight;
+
+    const handleCancel = async () => {
+        if (data?.user.id) {
+            const { error } = await cancelReservation(
+                data?.user.id,
+                reservationId
+            );
+
+            if (!error) setIsCancelled(true);
+        }
+    };
 
     const date = new Date(flight_date);
     const monthName = date.toLocaleString('default', { month: 'long' });
@@ -98,6 +125,7 @@ const UserReservation: React.FC<UserReservationProps> = ({ flightId }) => {
                 </div>
             </div>
             <button
+                onClick={handleCancel}
                 className="flex items-center justify-center gap-4 border-1 w-64 h-14 shadow-md rounded-2xl font-bold text-lg text-red-500 mb-10
                                         hover:text-xl transition-all duration-300
                                         hover:bg-red-200 mt-5"

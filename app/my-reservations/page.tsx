@@ -8,7 +8,9 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 const MyReservationsPage = () => {
     const router = useRouter();
-    const [reservationIds, setReservationIds] = useState<number[]>([]);
+    const [userReservations, setUserReservations] = useState<
+        { reservationId: string; flightId: string }[]
+    >([]);
     const { data, status } = useSession();
 
     useEffect(() => {
@@ -16,25 +18,35 @@ const MyReservationsPage = () => {
             if (status === 'unauthenticated') router.push('/login');
 
             if (data?.user) {
-                const { reservations } = await getAllUserReservations(
-                    data?.user.id
-                );
-                setReservationIds(reservations);
+                const { reservationIds, flightIds } =
+                    await getAllUserReservations(data?.user.id);
+
+                const combined = reservationIds.map((r, i) => ({
+                    reservationId: r.toString(),
+                    flightId: flightIds[i],
+                }));
+
+                setUserReservations(combined);
             }
         };
         getAll();
     }, [status]);
 
-    console.log(reservationIds);
-    let userHasReservations = reservationIds.length > 0;
-
     return (
         <div className="flex flex-col items-center">
+            {userReservations.length === 0 && (
+                <h1 className="text-gray-400 text-2xl">
+                    You seem to have no reservations yet...
+                </h1>
+            )}
             <div className="w-full">
-                {userHasReservations &&
-                    reservationIds.map((r) => (
-                        <UserReservation key={r} flightId={r.toString()} />
-                    ))}
+                {userReservations.map(({ reservationId, flightId }) => (
+                    <UserReservation
+                        key={reservationId}
+                        reservationId={reservationId}
+                        flightId={flightId}
+                    />
+                ))}
             </div>
             <button
                 onClick={() => router.push('/')}
