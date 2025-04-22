@@ -3,21 +3,34 @@ import { BsFillAirplaneFill } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
 import { BiSolidHelpCircle } from 'react-icons/bi';
 import { useState, useRef, useEffect } from 'react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { GrLogout } from 'react-icons/gr';
 import { useRouter } from 'next/navigation';
 import useSun from '@/hooks/useSun';
 import { doesFlightExistOnDate, insertFakeFlight } from '@/lib/db/flight';
+import { verifyAdmin } from '@/lib/db/user';
+import { IoMdCreate } from 'react-icons/io';
 
 const HomepagePanel: React.FC = () => {
     const [hint, setHint] = useState('');
     const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const router = useRouter();
     const sunRef = useSun();
+    const { data } = useSession();
 
     const logout = () => {
         signOut({ redirect: true, callbackUrl: '/login' });
     };
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const checkAdmin = async () => {
+            let userIsAdmin = false;
+            if (data?.user.id) userIsAdmin = await verifyAdmin(data?.user.id);
+            setIsAdmin(userIsAdmin);
+        };
+        checkAdmin();
+    }, [data?.user.id]);
 
     useEffect(() => {
         //Insert fake flights for the next 7 days (at random times during the day)
@@ -127,6 +140,24 @@ const HomepagePanel: React.FC = () => {
                     Logout
                 </button>
             </div>
+            {isAdmin && (
+                <div>
+                    <h1 className="text-cyan-500 text-4xl flex flex-row gap-5 justify-center text-center pt-10">
+                        Admin Section
+                    </h1>
+                    <button
+                        onClick={() => router.push('/create')}
+                        className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md rounded-2xl font-bold text-lg text-cyan-900
+                    hover:text-xl transition-all duration-300
+                    hover:bg-cyan-300 mt-5"
+                    >
+                        <span className="transform">
+                            <IoMdCreate size={25} />
+                        </span>
+                        Create Flight
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

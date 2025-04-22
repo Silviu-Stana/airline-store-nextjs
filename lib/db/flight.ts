@@ -146,3 +146,29 @@ export async function getFlightById(flightId: string) {
 
     return data; // Return the flight data directly
 }
+
+export async function createFlight(
+    startCity: string,
+    endCity: string,
+    date: Date,
+    price: string,
+    duration: string
+) {
+    const { data, error } = await supabase
+        .schema('next_auth')
+        .from('flights')
+        .insert({
+            start_location: startCity,
+            end_location: endCity,
+            flight_date: date,
+            flight_duration: duration,
+            price: price,
+        })
+        .single();
+
+    if (error) {
+        throw new Error(`Error creating flight: ${error.message}`);
+    }
+
+    return { data, error }; // Return the flight data directly
+}

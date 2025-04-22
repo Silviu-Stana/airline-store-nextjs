@@ -1,6 +1,6 @@
 'use client';
 import { getFlightById } from '@/lib/db/flight';
-import { cancelReservation, fetchReservation } from '@/lib/db/reservation';
+import { cancelReservation } from '@/lib/db/reservation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
