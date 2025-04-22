@@ -95,18 +95,21 @@ export async function getAllFlightLocations() {
 
     if (error) {
         console.log('Error fetching locations:', error);
-        return [];
+        return {
+            startCities: [],
+            endCities: [],
+        };
     }
 
     //Collect all locations
-    const cities = data.flatMap((flight) => [
-        flight.start_location,
-        flight.end_location,
-    ]);
+    const start_cities = data.map((flight) => flight.start_location);
 
-    const uniqueCities = [...new Set(cities)].sort();
+    const end_cities = data.map((flight) => flight.end_location);
 
-    return uniqueCities;
+    const start_unique_cities = [...new Set(start_cities)].sort();
+    const end_unique_cities = [...new Set(end_cities)].sort();
+
+    return { startCities: start_unique_cities, endCities: end_unique_cities };
 }
 
 export async function searchFlight(

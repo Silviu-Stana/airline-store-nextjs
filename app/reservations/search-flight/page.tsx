@@ -1,6 +1,9 @@
 'use client';
 import NavigationButton from '@/components/NavigationButton';
-import SearchResult from '@/components/search-results/SearchResult';
+import SearchResult, {
+    SearchResultProps,
+} from '@/components/search-results/SearchResult';
+import SearchFlightsButton from '@/components/SearchFlightsButton';
 import { useReservation } from '@/contexts/ReservationContext';
 import { getAllFlightLocations, searchFlight } from '@/lib/db/supabase';
 import React, { useEffect, useState } from 'react';
@@ -9,26 +12,34 @@ import { FaSearch } from 'react-icons/fa';
 const SearchFlight = () => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
-    const [locations, setLocations] = useState(['']);
 
-    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [startCities, setStartCities] = useState(['']);
+    const [endCities, setEndCities] = useState(['']);
 
-    const { selectedDate } = useReservation();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [searchResults, setSearchResults] = useState<SearchResultProps[]>([]);
+
+    const { selectedDate, flightId } = useReservation();
 
     useEffect(() => {
         async function getCities() {
             let loc = await getAllFlightLocations();
-            setLocations(['...................', ...loc]);
-            setTo('');
+            setStartCities(['...................', ...loc.startCities]);
+            setEndCities(['...................', ...loc.endCities]);
             setFrom('');
+            setTo('');
         }
 
         getCities();
     }, []);
 
     async function handleSearch() {
+        setIsLoading(true);
         const results = await searchFlight(from, to, selectedDate);
+        console.log(results);
         setSearchResults(results);
+        setIsLoading(false);
     }
 
     return (
@@ -46,15 +57,19 @@ const SearchFlight = () => {
                     <select
                         value={from}
                         onChange={(e) => {
-                            const selected = locations.find(
+                            const selected = startCities.find(
                                 (loc) => loc === e.target.value
                             );
                             if (selected) setFrom(selected);
+                            if (selected === '...................') setFrom('');
                         }}
                         className="ml-4 font-medium text-[18px] text-cyan-500 focus:outline-none cursor-pointer"
                     >
-                        {locations
-                            .filter((loc) => loc !== to)
+                        {startCities
+                            .filter(
+                                (loc) =>
+                                    loc !== to || loc === '...................'
+                            )
                             .map((loc) => {
                                 return (
                                     <option
@@ -81,15 +96,20 @@ const SearchFlight = () => {
                     <select
                         value={to}
                         onChange={(e) => {
-                            const selected = locations.find(
+                            const selected = endCities.find(
                                 (loc) => loc === e.target.value
                             );
                             if (selected) setTo(selected);
+                            if (selected === '...................') setTo('');
                         }}
                         className="ml-4 font-medium text-[18px] text-cyan-500 focus:outline-none cursor-pointer"
                     >
-                        {locations
-                            .filter((loc) => loc !== from)
+                        {endCities
+                            .filter(
+                                (loc) =>
+                                    loc !== from ||
+                                    loc === '...................'
+                            )
                             .map((loc) => {
                                 return (
                                     <option
@@ -108,25 +128,24 @@ const SearchFlight = () => {
                 </div>
             </div>
 
+            <SearchFlightsButton
+                handleSearch={handleSearch}
+                isLoading={isLoading}
+            />
+
             <div className="mt-10"></div>
             {searchResults &&
                 searchResults.map((res) => (
-                    <SearchResult key={res.id} res={res} />
+                    <SearchResult
+                        key={res.id}
+                        id={res.id}
+                        flight_date={res.flight_date}
+                        flight_duration={res.flight_duration}
+                        start_location={res.start_location}
+                        end_location={res.end_location}
+                        price={res.price}
+                    />
                 ))}
-
-            <div className="relative flex flex-row justify-center mt-5">
-                <button
-                    onClick={handleSearch}
-                    className="flex items-center justify-center gap-4 border-cyan-400 border-2 w-64 h-14 shadow-md shadow-cyan-300 rounded-2xl font-bold text-xl cursor-pointer text-cyan-600
-                                    hover:text-xl transition-all duration-300
-                                    hover:bg-cyan-300 mt-5"
-                >
-                    <span>
-                        <FaSearch size={20} />
-                    </span>
-                    Search Flights
-                </button>
-            </div>
 
             <div className="relative z-10 flex flex-row gap-5 justify-center mb-4 mt-20">
                 <NavigationButton
@@ -135,6 +154,7 @@ const SearchFlight = () => {
                     route="/reservations/date"
                 />
                 <NavigationButton
+                    disabled={flightId === ''}
                     label="Next"
                     iconPosition="right"
                     route="/reservations/select-seat"

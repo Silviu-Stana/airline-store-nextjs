@@ -3,8 +3,8 @@ import NavigationButton from '@/components/NavigationButton';
 import Seat from '@/components/Seat';
 import Image from 'next/image';
 import React from 'react';
-import { useReservation } from './ReservationContext';
 import { Prefetcher } from '@/components/Prefetcher';
+import { useReservation } from '@/contexts/ReservationContext';
 
 const SearchFlight = () => {
     const { selectedSeat } = useReservation();

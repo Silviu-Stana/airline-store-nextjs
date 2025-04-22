@@ -3,9 +3,11 @@ import React, { createContext, useContext, useState } from 'react';
 
 type ReservationContextType = {
     selectedDate: Date;
+    setSelectedDate: (date: Date) => void;
     selectedSeat: string;
     setSelectedSeat: (seat: string) => void;
-    setSelectedDate: (date: Date) => void;
+    flightId: string;
+    setFlightId: (value: string) => void;
 };
 
 const ReservationContext = createContext<ReservationContextType | undefined>(
@@ -19,6 +21,7 @@ export const ReservationProvider = ({
 }) => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [selectedSeat, setSelectedSeat] = useState('');
+    const [flightId, setFlightId] = useState('');
 
     return (
         <ReservationContext.Provider
@@ -27,6 +30,8 @@ export const ReservationProvider = ({
                 setSelectedDate,
                 selectedSeat,
                 setSelectedSeat,
+                flightId,
+                setFlightId,
             }}
         >
             {children}
